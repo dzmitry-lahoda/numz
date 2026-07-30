@@ -1,5 +1,5 @@
 /// Assumes has canonical elements of being signed.
-pub trait Signed {    
+pub trait Signed {
     fn signum(&self) -> Self;
 }
 
@@ -15,11 +15,13 @@ pub trait SaturatingSub<Rhs: Sized + Copy>: Sized + Copy {
     fn saturating_sub(&self, v: Rhs) -> Self::Output;
 }
 
+/// `Tie::Break(Integer::ToZero)`
 pub trait CheckedDiv<Rhs> {
     type Output;
     fn checked_div(&self, v: Rhs) -> Option<Self::Output>;
 }
 
+/// `Tie::Break(Integer::Up)`
 /// num_traits force Div impl with lhs, rhs and output be same -
 /// does not allows proper typing.
 /// so we have own.
@@ -38,6 +40,7 @@ pub trait Next {
     fn next() -> Self::Output;
 }
 
+/// `Tie::Break(Integer::ToZero)`
 pub trait SaturatingDiv<Rhs: Sized + Copy>: Sized + Copy {
     type Output;
     fn saturating_div(&self, v: Rhs) -> Self::Output;
