@@ -1,3 +1,6 @@
+//! Rust `-5 / 3` is just `Tie::Break(Integer::Up)`
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Integer {
     /// Up, Ceil, positive infinity.
     /// 2.5, 2.3, 2.7 -> 3
@@ -36,14 +39,26 @@ pub enum Integer {
     AwayFromZero,
 }
 
-pub enum Tie<Integer> {
-    Ignore(Integer),
-    Break(Integer),
+mod private {
+    pub trait Sealed {}
+    impl Sealed for super::Integer {}
+    impl Sealed for super::OneSidedInteger {}
+}
+
+pub trait TieBehavior: private::Sealed {}
+impl TieBehavior for Integer {}
+impl TieBehavior for OneSidedInteger {}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Tie<T: TieBehavior> {
+    Ignore(T),
+    Break(T),
     /// Banker's Rounding
     Even,
     Odd,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum OneSidedInteger {
     /// Pushes the number higher.
     /// Acts as `Up`, `Ceil`, and `AwayFromZero`.

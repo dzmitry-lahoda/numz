@@ -1,8 +1,11 @@
 
 
-- more categorical and const num-traits
+- more categorical and const num-traits and rounding enums
 - works on Copy only and will always only on these
-
+- non zero support
+- designed for newnum(newtype patter) support
+  - so that `a(u64) x b(u32) = c(u96)` if needed
+  - or `nonzero / nonzero = zeroable`
 
 ## because 
 
